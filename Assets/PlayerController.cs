@@ -8,11 +8,14 @@ public class PlayerController : MonoBehaviour
 {
     Vector2 inputVector;
     Rigidbody rb;
+    Transform bulletSpawn;
+    public GameObject bulletPrefab;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         inputVector = Vector2.zero;
+        bulletSpawn = transform.Find("bulletSpawn");
     }
 
     // Update is called once per frame
@@ -46,15 +49,19 @@ public class PlayerController : MonoBehaviour
             Vector3 rotation = transform.up * inputVector.x;
             rb.AddTorque(rotation, ForceMode.Impulse);
         }
-
-
-
-
         
     }
     void OnMove(InputValue inputValue) 
     {
         inputVector = inputValue.Get<Vector2>();
         
+    }
+
+    void OnFire()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn);
+        bullet.transform.parent = null;
+        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*10,ForceMode.VelocityChange );
+        Destroy(bullet, 10);
     }
 }

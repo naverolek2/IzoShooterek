@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Transform bulletSpawn;
     public GameObject bulletPrefab;
+    public float bulletSpeed = 20f;
+    public float playerSpeed = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn);
         bullet.transform.parent = null;
-        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*10,ForceMode.VelocityChange );
-        Destroy(bullet, 10);
+        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
+        Destroy(bullet, 5  );
     }
 }

@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,52 +11,37 @@ public class PlayerController : MonoBehaviour
     Transform bulletSpawn;
     public GameObject bulletPrefab;
     public float bulletSpeed = 20f;
-    public float playerSpeed = 2;
+    public float playerSpeed = 1.5f;
+    float hp = 10;
+    public GameObject hpBar;
+    Scrollbar hpScrollBar;
+    Vector2 movementVector;
     // Start is called before the first frame update
     void Start()
     {
+        movementVector = Vector2.zero;
         rb = GetComponent<Rigidbody>();
         inputVector = Vector2.zero;
         bulletSpawn = transform.Find("bulletSpawn");
+        hpScrollBar = hpBar.GetComponent<Scrollbar>();
+        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Wychylenie kontrolera" + inputVector.ToString());
-        //Vector3 movement = new Vector3(0,0, inputVector.y);
-        //bez fizyki
-        //transform.Translate(movement);
-        //Vector3 rotation = new Vector3(0, inputVector.x, 0);
-         //transform.Rotate(rotation);
+        //obrót wokó³ osi Y o iloœæ stopni równ¹ wartosci osi X kontrolera
+        transform.Rotate(Vector3.up * movementVector.x);
+        //przesuniêcie do przodu (transform.forward) o wychylenie osi Y kontrolera w czasie jednej klatki
+        transform.Translate(Vector3.forward * movementVector.y * Time.deltaTime * playerSpeed);
     }
-    private void FixedUpdate()
-    {
-        //z fizyk�
-        if(inputVector.y == 0 ) { 
-            rb.velocity = Vector2.zero;
-        }
-        else
-        {
-        Vector3 movement = transform.forward * inputVector.y;
-        rb.AddForce(movement, ForceMode.Impulse);
-        }
 
-        if (inputVector.x == 0)
-        {
-            rb.angularVelocity = Vector3.zero;
-        }
-        else
-        {
-            Vector3 rotation = transform.up * inputVector.x;
-            rb.AddTorque(rotation, ForceMode.Impulse);
-        }
-        
-    }
-    void OnMove(InputValue inputValue) 
+    void OnMove(InputValue inputValue)
     {
-        inputVector = inputValue.Get<Vector2>();
-        
+        movementVector = inputValue.Get<Vector2>();
+        //Debug.Log(movementVector.ToString());
     }
 
     void OnFire()
@@ -66,4 +51,26 @@ public class PlayerController : MonoBehaviour
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
         Destroy(bullet, 5  );
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            hp--;
+            hpScrollBar.size = hpScrollBar.size - 0.1f;
+            Vector3 pushVector = collision.gameObject.transform.position;
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized*5, ForceMode.Impulse);
+            if(hp <= 0)
+            {
+                Die();
+            }
+        }
+    }
+    void Die()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+        transform.Translate(Vector3.up);
+        transform.Rotate(Vector3.right * -90);
+    }
+    
+
 }

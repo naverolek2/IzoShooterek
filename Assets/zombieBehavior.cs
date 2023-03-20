@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,7 +8,10 @@ public class zombieBehavior : MonoBehaviour
 {
     
     GameObject player;
-    int hp = 10;
+    int hp = 6;
+    public bool isDead = false;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -36,11 +40,24 @@ public class zombieBehavior : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
+                isDead = true;
                 transform.Translate(Vector3.up);
                 transform.Rotate(Vector3.right * -90);
                 GetComponent<BoxCollider>().enabled = false;
-                Destroy(transform.gameObject, 10);
+                Destroy(transform.gameObject);
+                
+                
             }
         }
+
     }
+   public Vector3 currentPosition() { 
+    return transform.position;
+    }
+    public bool IsEnemyDead()
+    {
+        return isDead;
+    }
+
+
 }

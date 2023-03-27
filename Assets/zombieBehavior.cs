@@ -8,7 +8,7 @@ public class zombieBehavior : MonoBehaviour
 {
     
     GameObject player;
-    int hp = 6;
+    int hp = 4;
    
 
     
@@ -43,8 +43,8 @@ public class zombieBehavior : MonoBehaviour
                 transform.Translate(Vector3.up);
                 transform.Rotate(Vector3.right * -90);
                 GetComponent<BoxCollider>().enabled = false;
-                Destroy(transform.gameObject, 5);
-
+                Destroy(transform.gameObject, 1);
+               
 
 
             }

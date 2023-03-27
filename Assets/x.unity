@@ -208,7 +208,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 658470647}
-  - component: {fileID: 658470646}
+  - component: {fileID: 658470648}
   m_Layer: 0
   m_Name: LevelController
   m_TagString: Untagged
@@ -216,19 +216,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &658470646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658470645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f8b2a26c2741c94f92efa7039990f57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zombie: {fileID: 699867429952605879, guid: 598dfdd213d2b08469f819a5e7e6b92c, type: 3}
 --- !u!4 &658470647
 Transform:
   m_ObjectHideFlags: 0
@@ -244,6 +231,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &658470648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658470645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8b2a26c2741c94f92efa7039990f57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombie: {fileID: 699867429952605879, guid: 598dfdd213d2b08469f819a5e7e6b92c, type: 3}
+  healPrefab: {fileID: 3382940519829329505, guid: 8f7789119b686b24fb75f3736ca2ce55, type: 3}
 --- !u!1 &758304293
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +409,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852038913}
   m_CullTransparentMesh: 1
+--- !u!1 &1116780412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1910353623466052602, guid: 350e95b820b77d1499c1cbfd1fca2739, type: 3}
+  m_PrefabInstance: {fileID: 1910353622699902191}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1116780416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116780412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b524542fa8274409808382390990ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOffset: {x: -5.75, y: 10, z: -5.53}
 --- !u!1 &1280262507
 GameObject:
   m_ObjectHideFlags: 0

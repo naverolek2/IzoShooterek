@@ -61,8 +61,15 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized*5, ForceMode.Impulse);
             if(hp <= 0)
             {
+                Time.timeScale = 0;
                 // Koniec gry
             }
+        }
+        if (collision.gameObject.CompareTag("heal"))
+        {
+            hp = 10;
+            hpScrollBar.size = hp / 10;
+            Destroy(collision.gameObject);
         }
     }
    

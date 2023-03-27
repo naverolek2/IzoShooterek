@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //obrót wokó³ osi Y o iloœæ stopni równ¹ wartosci osi X kontrolera
+       
         transform.Rotate(Vector3.up * movementVector.x);
-        //przesuniêcie do przodu (transform.forward) o wychylenie osi Y kontrolera w czasie jednej klatki
+       
         transform.Translate(Vector3.forward * movementVector.y * Time.deltaTime * playerSpeed);
     }
 
@@ -61,16 +61,11 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized*5, ForceMode.Impulse);
             if(hp <= 0)
             {
-                Die();
+                // Koniec gry
             }
         }
     }
-    void Die()
-    {
-        GetComponent<BoxCollider>().enabled = false;
-        transform.Translate(Vector3.up);
-        transform.Rotate(Vector3.right * -90);
-    }
+   
     
 
 }

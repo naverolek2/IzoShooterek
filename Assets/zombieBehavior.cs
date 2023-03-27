@@ -9,7 +9,7 @@ public class zombieBehavior : MonoBehaviour
     
     GameObject player;
     int hp = 6;
-    public bool isDead = false;
+   
 
     
 
@@ -40,13 +40,13 @@ public class zombieBehavior : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
-                isDead = true;
                 transform.Translate(Vector3.up);
                 transform.Rotate(Vector3.right * -90);
                 GetComponent<BoxCollider>().enabled = false;
-                Destroy(transform.gameObject);
-                
-                
+                Destroy(transform.gameObject, 5);
+
+
+
             }
         }
 
@@ -54,10 +54,7 @@ public class zombieBehavior : MonoBehaviour
    public Vector3 currentPosition() { 
     return transform.position;
     }
-    public bool IsEnemyDead()
-    {
-        return isDead;
-    }
+    
 
 
 }

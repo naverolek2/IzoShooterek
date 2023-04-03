@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class zombieBehavior : MonoBehaviour
 {
     
     GameObject player;
     int hp = 4;
+    NavMeshAgent agent;
    
 
     
@@ -17,7 +19,7 @@ public class zombieBehavior : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        
+        agent = GetComponent<NavMeshAgent>();
         // Jeden strza³ odbiera 2 hp
 
     }
@@ -26,10 +28,16 @@ public class zombieBehavior : MonoBehaviour
     {
         if (hp > 0)
         {
-            transform.LookAt(player.transform.position);
+            //transform.LookAt(player.transform.position);
             //Vector3 playerDirection = transform.position - player.transform.position;
 
-            transform.Translate(Vector3.forward * Time.deltaTime);
+           // transform.Translate(Vector3.forward * Time.deltaTime);
+
+            agent.destination = player.transform.position;
+        }
+        else
+        {
+            agent.speed = 0;
         }
     }
     private void OnCollisionEnter(Collision collision)

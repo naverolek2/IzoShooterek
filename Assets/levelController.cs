@@ -35,7 +35,7 @@ public class levelController : MonoBehaviour
             {
                 Instantiate(healPrefab, randomPosition(), Quaternion.identity);
             }
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 1; i++)
         {
             if(table[i].IsDestroyed())
             {
@@ -82,7 +82,7 @@ public class levelController : MonoBehaviour
 }
 void Spawn()
     {
-        for(int i = 0; i < 3 ; i++)
+        for(int i = 0; i < 1 ; i++)
         {
             table[i] = Instantiate(zombie, randomPosition(), Quaternion.identity);
             zombieCounter++;

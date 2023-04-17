@@ -6,16 +6,19 @@ public class cameraController : MonoBehaviour
 {
     public Vector3 playerOffset;
     GameObject player;
+    public float smoothTime = 0.2f;
+    private Vector3 velocity;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        velocity = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 targetPostion = player.transform.position + playerOffset;
-        transform.position = targetPostion;   
+        transform.position = Vector3.SmoothDamp(transform.position, targetPostion, ref velocity, smoothTime);
     }
 }

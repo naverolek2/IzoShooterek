@@ -31,7 +31,7 @@ public class levelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            if(GameObject.FindGameObjectsWithTag("heal").Length < 1 )
+            if(GameObject.FindGameObjectsWithTag("heal").Length < 3 )
             {
                 Instantiate(healPrefab, randomPosition(), Quaternion.identity);
             }
@@ -82,7 +82,7 @@ public class levelController : MonoBehaviour
 }
 void Spawn()
     {
-        for(int i = 0; i < 1 ; i++)
+        for(int i = 0; i < 3 ; i++)
         {
             table[i] = Instantiate(zombie, randomPosition(), Quaternion.identity);
             zombieCounter++;

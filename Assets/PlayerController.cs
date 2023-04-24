@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,10 +16,22 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletSpeed = 20f;
     public float playerSpeed = 1.5f;
-    float hp = 10;
+    public float hp = 10;
     public GameObject hpBar;
+    public Text ammo;
+    int ammoAmount = 30;
+    public int ammoAmountMax = 30;
+
+    public AudioSource source;
+    public AudioClip clip;
+    
+    public AudioClip clip2;
+
+
+
     Scrollbar hpScrollBar;
     Vector2 movementVector;
+    GameObject levelcontroller;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +42,7 @@ public class PlayerController : MonoBehaviour
         hpScrollBar = hpBar.GetComponent<Scrollbar>();
         
 
-
+        levelcontroller = GameObject.Find("LevelController");
     }
 
     // Update is called once per frame
@@ -50,20 +66,27 @@ public class PlayerController : MonoBehaviour
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
         Destroy(bullet, 5  );
+        source.PlayOneShot(clip2, 0.5f);
     }
     private void OnCollisionEnter(Collision collision)
     {
+        GameObject target = collision.gameObject;
         if(collision.gameObject.CompareTag("Enemy"))
         {
+            source.PlayOneShot(clip);
             hp--;
             hpScrollBar.size = hpScrollBar.size - 0.1f;
             Vector3 pushVector = collision.gameObject.transform.position;
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized*5, ForceMode.Impulse);
-            if(hp <= 0)
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized, ForceMode.Impulse);
+            
+
+
+            if (hp <= 0)
             {
-                Time.timeScale = 0;
-                // Koniec gry
+                GameMenager.Dead();
             }
+            
+
         }
         if (collision.gameObject.CompareTag("heal"))
         {

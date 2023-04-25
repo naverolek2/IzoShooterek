@@ -76,8 +76,8 @@ public class PlayerController : MonoBehaviour
             source.PlayOneShot(clip);
             hp--;
             hpScrollBar.size = hpScrollBar.size - 0.1f;
-            Vector3 pushVector = collision.gameObject.transform.position;
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized, ForceMode.Impulse);
+            //Vector3 pushVector = collision.gameObject.transform.position;
+            //collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized, ForceMode.Impulse);
             
 
 

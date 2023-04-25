@@ -10,7 +10,7 @@ public class zombieBehavior : MonoBehaviour
 {
     public float sightRange = 15f;
     public float hearRange = 10f;
-    int hp = 10;
+    int hp = 4;
     float timePassed = 0f;
     float timePassed2 = 0f;
     GameObject player;
@@ -19,10 +19,12 @@ public class zombieBehavior : MonoBehaviour
     private bool playerHearable = false;
     int timeNeed;
     int timeNeed2;
-
+    Rigidbody rb;
     public AudioSource source;
     public AudioClip clip;
-    NavMeshAgent navmesh;
+    
+
+
 
 
     // Start is called before the first frame update
@@ -32,13 +34,18 @@ public class zombieBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         timeNeed = Random.Range(2, 5);
         timeNeed2 = 2;
-        navmesh = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+        
+
 
 
     }
     // Update is called once per frame
     void Update()
     {
+        timer();
+        
 
         Vector3 raySource = transform.position + Vector3.up * 1f;
         Vector3 rayDest = player.transform.position - transform.position + Vector3.up * 1f;
@@ -55,7 +62,7 @@ public class zombieBehavior : MonoBehaviour
 
         if (Physics.Raycast(raySource, rayDirection, out hit, sightRange))
             {
-                Debug.Log(hit.transform.gameObject.name.ToString());
+                //Debug.Log(hit.transform.gameObject.name.ToString());
 
                
 
@@ -99,38 +106,37 @@ public class zombieBehavior : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
-                GetComponent<BoxCollider>().enabled = false;
-                GetComponent<NavMeshAgent>().enabled = false;
-                transform.Translate(Vector3.up);
-                transform.Rotate(Vector3.right * -90);
-                Destroy(transform.gameObject, 1);
                
+                Destroy(transform.gameObject, 0);
+
 
 
             }
         }
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
+            agent.speed = 0;
+            agent.angularSpeed = 0;
             timePassed2 = 0;
-            if(timePassed2 > timeNeed2)
-            {
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
-                GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-                navmesh.speed = 1;
-                navmesh.angularSpeed = 120;
-                navmesh.acceleration = 8;
-                navmesh.ResetPath();
-                
-            }
-            
+
 
         }
+
 
     }
    public Vector3 currentPosition() { 
     return transform.position;
     }
-    
+    void timer()
+    {
+        timePassed2 += Time.deltaTime;
+        if (timePassed2 > timeNeed2)
+        {
+            agent.speed = 1;
+            agent.angularSpeed = 120;
+            timePassed2 = 0;
+        }
+    }
 
 
 }

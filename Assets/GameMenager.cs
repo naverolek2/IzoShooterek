@@ -37,6 +37,7 @@ public class GameMenager : MonoBehaviour
     public static void Dead()
     {
         SceneManager.LoadScene("GameOverScreen");
+        
     }
 }
 

@@ -35,7 +35,7 @@ public class levelController : MonoBehaviour
             {
                 Instantiate(healPrefab, randomPosition(), Quaternion.identity);
             }
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 3; i++)
         {
             if(table[i].IsDestroyed())
             {

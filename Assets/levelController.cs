@@ -45,7 +45,7 @@ public class levelController : MonoBehaviour
             }
             if (table[i] == null)
             {
-                  table[i] = Instantiate(zombie, randomPosition(), Quaternion.identity);
+                  //table[i] = Instantiate(zombie, randomPosition(), Quaternion.identity);
             }
             
           

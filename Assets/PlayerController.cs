@@ -22,6 +22,17 @@ public class PlayerController : MonoBehaviour
     int ammoAmount = 30;
     public int ammoAmountMax = 30;
 
+    //animacje
+    Animator animator;
+    string currentState;
+    const string PLAYER_IDLE = "m_idle_A";
+    const string PLAYER_SHOOT_IDLE = "m_pistol_idle_A";
+    const string PLAYER_RUN = "m_run";
+    const string PLAYER_SHOOT_RUN = "m_pistol_run";
+     Vector3 lastPos;
+
+
+
     public AudioSource source;
     public AudioClip clip;
     
@@ -35,12 +46,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         movementVector = Vector2.zero;
         rb = GetComponent<Rigidbody>();
         inputVector = Vector2.zero;
         bulletSpawn = transform.Find("bulletSpawn");
         hpScrollBar = hpBar.GetComponent<Scrollbar>();
-        
+        animator = GetComponent<Animator>();
+
 
         levelcontroller = GameObject.Find("LevelController");
     }
@@ -52,6 +65,22 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up * movementVector.x);
        
         transform.Translate(Vector3.forward * movementVector.y * Time.deltaTime * playerSpeed);
+
+        //Sprawdza i zmienia animacje z biegania na idle
+        //Próbowałem z tą funkcją OnMove, ale coś nie działa. 
+        var moving = lastPos != transform.position;
+
+        if (moving)
+        {
+            ChangeAnimationState(PLAYER_RUN);
+        }
+        else
+        {
+            ChangeAnimationState(PLAYER_IDLE);
+        }
+        lastPos = transform.position;
+
+
     }
 
     void OnMove(InputValue inputValue)
@@ -62,11 +91,29 @@ public class PlayerController : MonoBehaviour
 
     void OnFire()
     {
+        if(currentState == PLAYER_IDLE)
+        {
+            ChangeAnimationState(PLAYER_SHOOT_IDLE);
+
+        }
+        else if (currentState == PLAYER_RUN)
+        {
+            ChangeAnimationState(PLAYER_SHOOT_RUN);
+        }
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn);
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
         Destroy(bullet, 5  );
         source.PlayOneShot(clip2, 0.5f);
+        if (currentState == PLAYER_SHOOT_IDLE)
+        {
+            ChangeAnimationState(PLAYER_IDLE);
+
+        }
+        else if (currentState == PLAYER_SHOOT_RUN)
+        {
+            ChangeAnimationState(PLAYER_RUN);
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -93,6 +140,27 @@ public class PlayerController : MonoBehaviour
             hp = 10;
             hpScrollBar.size = hp / 10;
             Destroy(collision.gameObject);
+        }
+    }
+
+    private void ChangeAnimationState(string newState)
+    {
+        if(newState == currentState)
+        {
+            return;
+        }
+        animator.Play(newState);
+        currentState = newState;
+    }
+
+    bool isAnimationPlaying(Animator animator, string stateName)
+    {
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
    

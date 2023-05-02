@@ -15,6 +15,8 @@ public class zombieBehavior : MonoBehaviour
     float timePassed2 = 0f;
     GameObject player;
     NavMeshAgent agent;
+    Animator animator;
+
     private bool playerVisible = false;
     private bool playerHearable = false;
     int timeNeed;
@@ -32,6 +34,7 @@ public class zombieBehavior : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         timeNeed = Random.Range(7, 15);
         timeNeed2 = 2;
         agent = GetComponent<NavMeshAgent>();
@@ -45,7 +48,10 @@ public class zombieBehavior : MonoBehaviour
     void Update()
     {
         timer();
-        
+
+        float speedPercent = agent.velocity.magnitude / agent.speed;
+        animator.SetFloat("speed", speedPercent);
+
 
         Vector3 raySource = transform.position + Vector3.up * 1f;
         Vector3 rayDest = player.transform.position - transform.position + Vector3.up * 1f;

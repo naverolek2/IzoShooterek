@@ -32,11 +32,11 @@ public class zombieBehavior : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
-        timeNeed = Random.Range(2, 5);
+        timeNeed = Random.Range(7, 15);
         timeNeed2 = 2;
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-        
+
 
 
 
@@ -56,6 +56,8 @@ public class zombieBehavior : MonoBehaviour
         timePassed += Time.deltaTime;
         if (timePassed > timeNeed)
         {
+            timeNeed = Random.Range(10, 20);
+            source.volume = 0.1f;
             source.PlayOneShot(clip);
             timePassed = 0f;
         }

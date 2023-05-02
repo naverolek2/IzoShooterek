@@ -9,6 +9,7 @@ TagManager:
   - healthBar
   - heal
   - DeadScreen
+  - punktWywolawczy
   layers:
   - Default
   - TransparentFX

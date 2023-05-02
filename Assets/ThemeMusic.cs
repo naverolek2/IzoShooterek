@@ -12,6 +12,7 @@ public class ThemeMusic : MonoBehaviour
     void Start()
     {
         source.clip = clip;
+        source.volume = 0.45f;
         source.Play();
         source.loop = true;
     }

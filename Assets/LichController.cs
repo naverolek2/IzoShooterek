@@ -19,9 +19,12 @@ public class LichController : MonoBehaviour
     Animator animator;
     string currentState;
     const string LICH_DEATH = "die";
+    const string LICH_ATTACK = "attack01";
+    const string LICH_IDLE = "idle";
     public float Force = 20;
 
     float timePassed = 0f;
+    
 
 
 
@@ -32,7 +35,7 @@ public class LichController : MonoBehaviour
         hpScrollBar = hpBar.GetComponent<Scrollbar>();
         isDead = false;
         animator = GetComponent<Animator>();
-        attack();
+        
     }
 
     // Update is called once per frame
@@ -46,21 +49,17 @@ public class LichController : MonoBehaviour
             timePassed = 0f;
         }
 
-        
+               
+
     }
 
     private void attack()
     {
-        
         GameObject fireball2 = Instantiate(fireball, fireballSpawnPoint.transform.position, Quaternion.identity);
-        
         fireball2.transform.parent = null;
         fireball2.GetComponent<Rigidbody>().AddForce(transform.forward * 7,
                                                     ForceMode.VelocityChange);
         Destroy(fireball2, 15);
-
-
-
     }
     private void FixedUpdate()
     {

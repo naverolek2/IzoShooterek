@@ -36,8 +36,7 @@ public class zombieBehavior : MonoBehaviour
     int timeNeed;
     int timeNeed2;
     Rigidbody rb;
-    public AudioSource source;
-    public AudioClip clip;
+    
     Vector3 lastPos;
     bool hasAttacked;
     bool isDead;
@@ -99,14 +98,7 @@ public class zombieBehavior : MonoBehaviour
         RaycastHit hit;
         Debug.DrawRay(raySource, rayDirection);
 
-        timePassed += Time.deltaTime;
-        if (timePassed > timeNeed)
-        {
-            timeNeed = Random.Range(10, 20);
-            source.volume = 0.1f;
-            source.PlayOneShot(clip);
-            timePassed = 0f;
-        }
+        
 
         if (Physics.Raycast(raySource, rayDirection, out hit, sightRange))
             {

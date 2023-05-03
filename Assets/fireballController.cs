@@ -24,7 +24,7 @@ public class fireballController : MonoBehaviour
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
-            Destroy(explosion,5);
+            
         }
     }
 }

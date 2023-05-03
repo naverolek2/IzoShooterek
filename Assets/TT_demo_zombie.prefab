@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 5099890722816238633}
   - component: {fileID: -2805970181105181694}
   - component: {fileID: 2536684804776597080}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TT_demo_zombie
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -137,8 +137,6 @@ MonoBehaviour:
   sightRange: 15
   hearRange: 10
   attackRange: 0.5
-  source: {fileID: 5099890722816238633}
-  clip: {fileID: 8300000, guid: 5f05be606b726b8448a08cfcf159dd0d, type: 3}
 --- !u!195 &6517117285868575925
 NavMeshAgent:
   m_ObjectHideFlags: 0

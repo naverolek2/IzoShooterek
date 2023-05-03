@@ -14,7 +14,7 @@ public class BossLevelController : MonoBehaviour
     {
         for (int i = 0; i < spawnpoint.Length; i++)
         {
-            //Instantiate(zombie, spawnpoint[i].transform.position, Quaternion.identity);
+            Instantiate(zombie, spawnpoint[i].transform.position, Quaternion.identity);
             
 
         }

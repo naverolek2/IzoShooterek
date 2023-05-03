@@ -6535,15 +6535,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Subtitles: {fileID: 2128862649}
   subtitleText:
+  - time: 7
+    text: ...
   - time: 2
     text: Hahaha
   - time: 4
     text: "My\u015Blisz, \u017Ce jak dotar\u0142e\u015B do tego miejsca to mnie pokonasz?"
   - time: 3
-    text: "Nie mo\u017Cesz by\u0107 bardziej w b\u0142\u0119dzie!"
+    text: "Nie mo\u017Cesz by\u0107 w wi\u0119kszym b\u0142\u0119dzie!"
   - time: 2
-    text: "Teraz gi\u0144!"
+    text: "Tylko nie daj si\u0119 trafi\u0107!"
   game: {fileID: 1263105432}
+--- !u!114 &924377317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924377312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7e995d2b8e82046b47944847d42f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireball: {fileID: 3835377638981051810, guid: 499c7ee95c5485d4184f1b6411168903, type: 3}
+  fireballSpawnPoint: {fileID: 1416285252}
+  explosion: {fileID: 74078499623404262, guid: 9790383d97594f049aecba8cf470e3b7, type: 3}
 --- !u!1001 &967219954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7645,14 +7662,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116780412}
-  m_LocalRotation: {x: 0.043619405, y: 0, z: 0, w: 0.9990483}
-  m_LocalPosition: {x: -58.21, y: 2.74, z: 84.26}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: -58.24, y: 2.88, z: 92.8}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 5, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &1125486256
 GameObject:
   m_ObjectHideFlags: 0
@@ -9874,6 +9891,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4b7339fb3082864b8444ec917d80cf4, type: 3}
+--- !u!1 &1416285252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1416285253}
+  m_Layer: 0
+  m_Name: FireBallSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1416285253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416285252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -58.021, y: 1.075, z: 98.266}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1418963348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10276,8 +10324,7 @@ MonoBehaviour:
   playerSpeed: 1.5
   hp: 10
   hpBar: {fileID: 0}
-  ammo: {fileID: 0}
-  ammoAmountMax: 30
+  zombieGrowl: {fileID: 8300000, guid: 5f05be606b726b8448a08cfcf159dd0d, type: 3}
   source: {fileID: 1463441395}
   clip: {fileID: 8300000, guid: c60c70ab23611bc41830bf6261f75e22, type: 3}
   clip2: {fileID: 8300000, guid: d6afb3d86cfaf6441932f494e2fea735, type: 3}
@@ -10308,7 +10355,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8619338777999598093, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8619338777999598093, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_Controller
@@ -10328,7 +10375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -58.326
+      value: -58.3
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10336,7 +10383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 73.63
+      value: 92.2
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177163, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13055,6 +13102,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 403426, guid: 55ca4401075700d46a23ae8179a79579, type: 3}
   m_PrefabInstance: {fileID: 356749109}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1719103271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719103273}
+  - component: {fileID: 1719103274}
+  m_Layer: 0
+  m_Name: muzykawtle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1719103273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719103271}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -56.100883, y: -0.06297922, z: 98.141335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1719103274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719103271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28abcc8634a95ed4c8739bf5bd92006c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 1463441395}
+  clip: {fileID: 8300000, guid: 4838b2a35052ed142b60cd359537fe22, type: 3}
 --- !u!1001 &1728737782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14870,6 +14963,10 @@ PrefabInstance:
     - target: {fileID: 105158, guid: baf7bb04094c1fe4d994d728999eae1b, type: 3}
       propertyPath: m_Name
       value: Parkinglot Center 3 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 105158, guid: baf7bb04094c1fe4d994d728999eae1b, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 491360, guid: baf7bb04094c1fe4d994d728999eae1b, type: 3}
       propertyPath: m_RootOrder

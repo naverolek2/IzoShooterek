@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.InputSystem.Processors;
+using Random = UnityEngine.Random;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -35,11 +37,12 @@ public class PlayerController : MonoBehaviour
      Vector3 lastPos;
     bool isDead;
 
-
+    public AudioClip zombieGrowl; 
     public AudioSource source;
     public AudioClip clip;
     
     public AudioClip clip2;
+    float timePassed = 0f;
 
 
 
@@ -64,7 +67,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        timePassed += Time.deltaTime;
+        if (timePassed > Random.Range(7, 15))
+        {
+            
+            source.PlayOneShot(zombieGrowl, 0.3f);
+            timePassed = 0f;
+        }
+
+
+
         transform.Rotate(Vector3.up * movementVector.x);
        
         transform.Translate(Vector3.forward * movementVector.y * Time.deltaTime * playerSpeed);
@@ -102,7 +114,7 @@ public class PlayerController : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn);
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
-        Destroy(bullet, 5  );
+        Destroy(bullet, 1);
         
         source.PlayOneShot(clip2, 0.1f);
         
@@ -121,11 +133,20 @@ public class PlayerController : MonoBehaviour
 
             if (hp <= 0)
             {
+                hpBar.active = false;
+                hpScrollBar.enabled = false;
                 isDead = true;
                 ChangeAnimationState(PLAYER_DEATH);
                 Invoke("GameOver", 2);
             }
             
+
+        }
+        if(collision.gameObject.CompareTag("fireBall"))
+        {
+            isDead = true;
+            ChangeAnimationState(PLAYER_DEATH);
+            Invoke("GameOver", 2);
 
         }
         if (collision.gameObject.CompareTag("heal"))
@@ -136,7 +157,14 @@ public class PlayerController : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("fireBall"))
         {
+
+            hpBar.active = false;
+            hpScrollBar.enabled = false;
+            isDead = true;
             Destroy(collision.gameObject, 1);
+            hp = 0;
+            hpScrollBar.size = 0;
+
         }
     }
     private void GameOver()

@@ -12,6 +12,7 @@ TagManager:
   - punktWywolawczy
   - fireBall
   - fence
+  - medicalKit
   layers:
   - Default
   - TransparentFX

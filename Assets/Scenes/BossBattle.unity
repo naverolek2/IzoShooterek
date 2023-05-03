@@ -6589,7 +6589,7 @@ MonoBehaviour:
   hpBar: {fileID: 852038913}
   zombieGrowl: {fileID: 0}
   source: {fileID: 1463441395}
-  clip: {fileID: 8300000, guid: c60c70ab23611bc41830bf6261f75e22, type: 3}
+  clip: {fileID: 8300000, guid: fbc446b70e7145745855179f314883c6, type: 3}
   clip2: {fileID: 8300000, guid: d6afb3d86cfaf6441932f494e2fea735, type: 3}
 --- !u!65 &1463441401
 BoxCollider:

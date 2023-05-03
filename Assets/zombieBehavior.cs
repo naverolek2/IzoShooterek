@@ -154,7 +154,7 @@ public class zombieBehavior : MonoBehaviour
                 agent.isStopped = true;
                 rb.detectCollisions = false;
                ChangeAnimationState(ZOMBIE_DEATH);
-                if(Random.Range(1, 1) == 1)
+                if(Random.Range(1, 8) == 3)
                 {
                     Instantiate(medkit, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
                 }

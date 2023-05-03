@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.InputSystem.Processors;
 using Random = UnityEngine.Random;
+using UnityEngine.Windows;
 
 
 public class PlayerController : MonoBehaviour
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
     
     public AudioClip clip2;
     float timePassed = 0f;
-
+    PlayerInput PlInput;
 
 
     Scrollbar hpScrollBar;
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlInput = GetComponent<PlayerInput>();
         isDead = false;
         movementVector = Vector2.zero;
         rb = GetComponent<Rigidbody>();
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviour
         if (timePassed > Random.Range(7, 15))
         {
             
-            source.PlayOneShot(zombieGrowl, 0.3f);
+            source.PlayOneShot(zombieGrowl, 0.2f);
             timePassed = 0f;
         }
 
@@ -125,7 +127,6 @@ public class PlayerController : MonoBehaviour
         GameObject target = collision.gameObject;
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            source.PlayOneShot(clip);
             //Vector3 pushVector = collision.gameObject.transform.position;
             //collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized, ForceMode.Impulse);
             Invoke("minusHp", 0.4f);
@@ -133,6 +134,7 @@ public class PlayerController : MonoBehaviour
 
             if (hp <= 0)
             {
+                PlInput.enabled = false;
                 hpBar.active = false;
                 hpScrollBar.enabled = false;
                 isDead = true;
@@ -145,7 +147,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("medicalKit"))
         {
             Destroy(collision.gameObject);
-
             hp = 10;
             hpScrollBar.size = 1;
         }
@@ -164,7 +165,7 @@ public class PlayerController : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("fireBall"))
         {
-
+            PlInput.enabled = false;
             hpBar.active = false;
             hpScrollBar.enabled = false;
             isDead = true;
@@ -181,6 +182,7 @@ public class PlayerController : MonoBehaviour
     private void minusHp()
     {
         hp--;
+        source.PlayOneShot(clip, 0.5f);
         hpScrollBar.size = hpScrollBar.size - 0.1f;
 
     }

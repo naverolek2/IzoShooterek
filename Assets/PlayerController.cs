@@ -142,7 +142,14 @@ public class PlayerController : MonoBehaviour
             
 
         }
-        if(collision.gameObject.CompareTag("fireBall"))
+        if (collision.gameObject.CompareTag("medicalKit"))
+        {
+            Destroy(collision.gameObject);
+
+            hp = 10;
+            hpScrollBar.size = 1;
+        }
+            if (collision.gameObject.CompareTag("fireBall"))
         {
             isDead = true;
             ChangeAnimationState(PLAYER_DEATH);

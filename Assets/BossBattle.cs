@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class BossBattle : MonoBehaviour
@@ -67,6 +68,8 @@ public class BossBattle : MonoBehaviour
 
     void akcjaStart()
     {
+        SceneManager.LoadScene("cutscene");
+
         Vector3 bossSpawnPointVector = bossSpawnPoint.transform.position;
         Instantiate(finalboss, bossSpawnPointVector, Quaternion.identity);
 

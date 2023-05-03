@@ -10,6 +10,7 @@ TagManager:
   - heal
   - DeadScreen
   - punktWywolawczy
+  - fireBall
   layers:
   - Default
   - TransparentFX

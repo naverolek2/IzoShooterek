@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed = 1.5f;
     public float hp = 10;
     public GameObject hpBar;
-    public Text ammo;
-    int ammoAmount = 30;
-    public int ammoAmountMax = 30;
+
+    
+    
 
     //animacje
     Animator animator;
@@ -103,7 +103,8 @@ public class PlayerController : MonoBehaviour
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
         Destroy(bullet, 5  );
-        source.PlayOneShot(clip2, 0.5f);
+        
+        source.PlayOneShot(clip2, 0.1f);
         
         
     }
@@ -132,6 +133,10 @@ public class PlayerController : MonoBehaviour
             hp = 10;
             hpScrollBar.size = hp / 10;
             Destroy(collision.gameObject);
+        }
+        if(collision.gameObject.CompareTag("fireBall"))
+        {
+            Destroy(collision.gameObject, 1);
         }
     }
     private void GameOver()

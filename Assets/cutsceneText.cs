@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct SubtitleText
@@ -45,7 +46,12 @@ public class cutsceneText : MonoBehaviour
             yield return new WaitForSecondsRealtime(subtitle.time);
        }
         subtitleGO.SetActive(false);
+        powrot();
    }
-
+    void powrot()
+    {
+        SceneManager.LoadScene("BossBattle");
+           
+    }
 
 }

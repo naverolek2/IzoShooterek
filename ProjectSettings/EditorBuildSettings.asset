@@ -12,9 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/x.unity
     guid: 1f3e59052ab5b8c4ba70808a1445143f
   - enabled: 1
+    path: Assets/Scenes/BossBattle.unity
+    guid: d0220671b19f24c47b771ededd65183f
+  - enabled: 1
     path: Assets/Scenes/GameOverScreen.unity
     guid: 435c64409e141604cb5088870de41709
   - enabled: 1
     path: Assets/Scenes/menu.unity
     guid: 23b8d3f65e83fee439af5a85ef039c0a
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: bf74f9eba8c1d074796702a0af8f327a
   m_configObjects: {}

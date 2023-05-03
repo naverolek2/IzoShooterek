@@ -41,7 +41,11 @@ public class GameMenager : MonoBehaviour
     public static void Dead()
     {
         SceneManager.LoadScene("GameOverScreen");
-        
     }
+    public static void Win()
+    {
+        SceneManager.LoadScene("WinScreen");
+    }
+
 }
 

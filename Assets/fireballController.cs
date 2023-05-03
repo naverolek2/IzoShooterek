@@ -26,5 +26,11 @@ public class fireballController : MonoBehaviour
             Destroy(this.gameObject);
             
         }
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
+
+        }
     }
 }

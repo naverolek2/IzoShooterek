@@ -22,9 +22,10 @@ public class LichController : MonoBehaviour
     const string LICH_ATTACK = "attack01";
     const string LICH_IDLE = "idle";
     public float Force = 20;
-
+    public GameObject zombie;
     float timePassed = 0f;
-    
+    float timePassed2 = 0f;
+    public GameObject[] spawnpoints;
 
 
 
@@ -48,8 +49,18 @@ public class LichController : MonoBehaviour
             attack();
             timePassed = 0f;
         }
+        timePassed2 += Time.deltaTime;
+        if (timePassed2 > 15f)
+        {
+            for (int i = 0; i < spawnpoints.Length; i++)
+            {
+                Instantiate(zombie, spawnpoints[i].transform.position, Quaternion.identity);
+            }
+            timePassed2 = 0f;
+        }
 
-               
+
+
 
     }
 

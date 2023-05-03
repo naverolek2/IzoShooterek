@@ -22,9 +22,12 @@ public class levelController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player");
+        for(int i = 0; i < 0; i++)
+        {
+        Instantiate(zombie, spawnpoint[i].transform.position, Quaternion.identity);
         
-        Instantiate(zombie, spawnpoint[0].transform.position, Quaternion.identity);
-        Instantiate(zombie, spawnpoint[1].transform.position, Quaternion.identity);
+        }
+        
         
         
     }

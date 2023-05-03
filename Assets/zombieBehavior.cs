@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Processors;
 using Random = UnityEngine.Random;
 
 public class zombieBehavior : MonoBehaviour
@@ -27,6 +28,7 @@ public class zombieBehavior : MonoBehaviour
     const string ZOMBIE_ATTACK = "atak_zombie";
     const string ZOMBIE_DEATH = "Z_death_A";
     
+    
 
 
     private bool playerVisible = false;
@@ -38,7 +40,7 @@ public class zombieBehavior : MonoBehaviour
     public AudioClip clip;
     Vector3 lastPos;
     bool hasAttacked;
-
+    bool isDead;
 
 
     // Start is called before the first frame update
@@ -49,12 +51,12 @@ public class zombieBehavior : MonoBehaviour
         animator = GetComponent<Animator>();
         timeNeed = Random.Range(7, 15);
         timeNeed2 = 2;
-        agent = GetComponent<NavMeshAgent>();
+
         rb = GetComponent<Rigidbody>();
         hasAttacked = false;
         agent.speed = 1;
-        agent.angularSpeed = 60;
-        
+        agent.angularSpeed = 120;
+        isDead = false;
 
 
 
@@ -65,20 +67,22 @@ public class zombieBehavior : MonoBehaviour
         
         var moving = lastPos != transform.position;
 
-                    
-        if (moving && Math.Abs(lastPos.x - transform.position.x) > 0.001 || moving && Math.Abs(lastPos.z - transform.position.z) > 0.001)
+        if (hasAttacked == false)
         {
-            ChangeAnimationState(ZOMBIE_RUN);
-        }
-        else
-        {
-            if(hasAttacked == false)
+            if (isDead == false)
             {
-                ChangeAnimationState(ZOMBIE_IDLE);
-            }
-            
-        }
+                if (moving && Math.Abs(lastPos.x - transform.position.x) > 0.001 || moving && Math.Abs(lastPos.z - transform.position.z) > 0.001)
+                {
+                    ChangeAnimationState(ZOMBIE_RUN);
+                }
+                else
+                {   
+                    ChangeAnimationState(ZOMBIE_IDLE);
+                }
         lastPos = transform.position;
+            }
+        }
+        
 
         
         
@@ -137,7 +141,7 @@ public class zombieBehavior : MonoBehaviour
             //Vector3 playerDirection = transform.position - player.transform.position;
 
             // transform.Translate(Vector3.back * Time.deltaTime);
-
+            
             agent.destination = player.transform.position ;
         }
     }
@@ -150,30 +154,51 @@ public class zombieBehavior : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
-               
-                Destroy(transform.gameObject, 0);
+                isDead = true;
+                agent.speed = 0;
+                agent.angularSpeed = 0;
 
+                agent.isStopped = true;
+                rb.detectCollisions = false;
+               ChangeAnimationState(ZOMBIE_DEATH);
+                Destroy(transform.gameObject, 2);
+                
 
 
             }
         }
         if(collision.gameObject.CompareTag("Player"))
         {
-            if (hasAttacked == false)
+            if (hp > 0)
             {
+                if(hasAttacked == false)
+                {
 
                 
-                //Debug.Log("Działa");
-                hasAttacked = true;
+                    //Debug.Log("Działa");
+                    hasAttacked = true;
+                    agent.speed = 0;
+                    agent.angularSpeed = 0;
+
+                    agent.isStopped = true;
+                
+                    ChangeAnimationState(ZOMBIE_ATTACK);
+                
+                    Invoke("actionResume", 1);
+                }
+            }
+            else
+            {
+                isDead = true;
                 agent.speed = 0;
                 agent.angularSpeed = 0;
 
                 agent.isStopped = true;
-                
-                ChangeAnimationState(ZOMBIE_ATTACK);
-                Invoke("goIdle", 2);
-                Invoke("actionResume", 3);
+                rb.detectCollisions = false;
+                ChangeAnimationState(ZOMBIE_DEATH);
+                Destroy(transform.gameObject, 2);
             }
+                
                
 
         }
@@ -181,16 +206,13 @@ public class zombieBehavior : MonoBehaviour
 
 
     }
-    private void goIdle()
-    {
-        ChangeAnimationState(ZOMBIE_IDLE);
-    }
+    
     private void actionResume()
     {
         agent.isStopped = false;
         hasAttacked = false;
         agent.speed = 1;
-        agent.angularSpeed = 60;
+        agent.angularSpeed = 120;
         
 
     }

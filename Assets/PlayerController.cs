@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.InputSystem.Processors;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,8 +31,9 @@ public class PlayerController : MonoBehaviour
     const string PLAYER_SHOOT_IDLE = "m_pistol_idle_A";
     const string PLAYER_RUN = "m_run";
     const string PLAYER_SHOOT_RUN = "m_pistol_run";
+    const string PLAYER_DEATH = "m_death_A";
      Vector3 lastPos;
-
+    bool isDead;
 
 
     public AudioSource source;
@@ -47,7 +49,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        isDead = false;
         movementVector = Vector2.zero;
         rb = GetComponent<Rigidbody>();
         inputVector = Vector2.zero;
@@ -70,16 +72,19 @@ public class PlayerController : MonoBehaviour
         //Sprawdza i zmienia animacje z biegania na idle
         //Próbowałem z tą funkcją OnMove, ale coś nie działa. 
         var moving = lastPos != transform.position;
-
-        if (moving && Math.Abs(lastPos.x - transform.position.x) > 0.001 || moving && Math.Abs(lastPos.z - transform.position.z) > 0.001) 
+        if (isDead == false)
         {
-            ChangeAnimationState(PLAYER_SHOOT_RUN);
+            if (moving && Math.Abs(lastPos.x - transform.position.x) > 0.001 || moving && Math.Abs(lastPos.z - transform.position.z) > 0.001) 
+            {
+                ChangeAnimationState(PLAYER_SHOOT_RUN);
+            }
+            else
+            {
+                ChangeAnimationState(PLAYER_SHOOT_IDLE);
+            }
+            lastPos = transform.position;
         }
-        else
-        {
-            ChangeAnimationState(PLAYER_SHOOT_IDLE);
-        }
-        lastPos = transform.position;
+        
 
 
     }
@@ -115,7 +120,9 @@ public class PlayerController : MonoBehaviour
 
             if (hp <= 0)
             {
-                GameMenager.Dead();
+                isDead = true;
+                ChangeAnimationState(PLAYER_DEATH);
+                Invoke("GameOver", 2);
             }
             
 
@@ -126,6 +133,10 @@ public class PlayerController : MonoBehaviour
             hpScrollBar.size = hp / 10;
             Destroy(collision.gameObject);
         }
+    }
+    private void GameOver()
+    {
+        GameMenager.Dead();
     }
     private void minusHp()
     {

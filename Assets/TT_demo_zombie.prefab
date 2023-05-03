@@ -77,10 +77,10 @@ GameObject:
   - component: {fileID: 6517117285868575925}
   - component: {fileID: 5099890722816238633}
   - component: {fileID: -2805970181105181694}
-  - component: {fileID: 8074680950238903740}
+  - component: {fileID: 2536684804776597080}
   m_Layer: 0
   m_Name: TT_demo_zombie
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightRange: 15
   hearRange: 10
+  attackRange: 0.5
   source: {fileID: 5099890722816238633}
   clip: {fileID: 8300000, guid: 5f05be606b726b8448a08cfcf159dd0d, type: 3}
 --- !u!195 &6517117285868575925
@@ -272,8 +273,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!64 &8074680950238903740
-MeshCollider:
+--- !u!65 &2536684804776597080
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -282,10 +283,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.6, z: 1}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &856601670117699840
 GameObject:
   m_ObjectHideFlags: 0

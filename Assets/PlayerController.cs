@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -70,13 +71,13 @@ public class PlayerController : MonoBehaviour
         //Próbowałem z tą funkcją OnMove, ale coś nie działa. 
         var moving = lastPos != transform.position;
 
-        if (moving)
+        if (moving && Math.Abs(lastPos.x - transform.position.x) > 0.001 || moving && Math.Abs(lastPos.z - transform.position.z) > 0.001) 
         {
-            ChangeAnimationState(PLAYER_RUN);
+            ChangeAnimationState(PLAYER_SHOOT_RUN);
         }
         else
         {
-            ChangeAnimationState(PLAYER_IDLE);
+            ChangeAnimationState(PLAYER_SHOOT_IDLE);
         }
         lastPos = transform.position;
 
@@ -91,29 +92,15 @@ public class PlayerController : MonoBehaviour
 
     void OnFire()
     {
-        if(currentState == PLAYER_IDLE)
-        {
-            ChangeAnimationState(PLAYER_SHOOT_IDLE);
-
-        }
-        else if (currentState == PLAYER_RUN)
-        {
-            ChangeAnimationState(PLAYER_SHOOT_RUN);
-        }
+        
+        
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn);
         bullet.transform.parent = null;
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
         Destroy(bullet, 5  );
         source.PlayOneShot(clip2, 0.5f);
-        if (currentState == PLAYER_SHOOT_IDLE)
-        {
-            ChangeAnimationState(PLAYER_IDLE);
-
-        }
-        else if (currentState == PLAYER_SHOOT_RUN)
-        {
-            ChangeAnimationState(PLAYER_RUN);
-        }
+        
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -121,11 +108,9 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             source.PlayOneShot(clip);
-            hp--;
-            hpScrollBar.size = hpScrollBar.size - 0.1f;
             //Vector3 pushVector = collision.gameObject.transform.position;
             //collision.gameObject.GetComponent<Rigidbody>().AddForce(pushVector.normalized, ForceMode.Impulse);
-            
+            Invoke("minusHp", 0.4f);
 
 
             if (hp <= 0)
@@ -142,7 +127,12 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+    private void minusHp()
+    {
+        hp--;
+        hpScrollBar.size = hpScrollBar.size - 0.1f;
 
+    }
     private void ChangeAnimationState(string newState)
     {
         if(newState == currentState)

@@ -1,21 +1,33 @@
 ﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.InputSystem.LowLevel;
+using Random = UnityEngine.Random;
 
 public class zombieBehavior : MonoBehaviour
 {
     public float sightRange = 15f;
     public float hearRange = 10f;
+    public float attackRange = 5f;
+
     int hp = 4;
     float timePassed = 0f;
     float timePassed2 = 0f;
     GameObject player;
     NavMeshAgent agent;
+
     Animator animator;
+    string currentState;
+    const string ZOMBIE_IDLE = "Z_idle_A";
+    const string ZOMBIE_RUN = "Z_run";
+    const string ZOMBIE_ATTACK = "atak_zombie";
+    const string ZOMBIE_DEATH = "Z_death_A";
+    
+
 
     private bool playerVisible = false;
     private bool playerHearable = false;
@@ -24,8 +36,8 @@ public class zombieBehavior : MonoBehaviour
     Rigidbody rb;
     public AudioSource source;
     public AudioClip clip;
-    
-
+    Vector3 lastPos;
+    bool hasAttacked;
 
 
 
@@ -39,7 +51,10 @@ public class zombieBehavior : MonoBehaviour
         timeNeed2 = 2;
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-
+        hasAttacked = false;
+        agent.speed = 1;
+        agent.angularSpeed = 60;
+        
 
 
 
@@ -47,10 +62,31 @@ public class zombieBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer();
+        
+        var moving = lastPos != transform.position;
 
-        float speedPercent = agent.velocity.magnitude / agent.speed;
-        animator.SetFloat("speed", speedPercent);
+                    
+        if (moving && Math.Abs(lastPos.x - transform.position.x) > 0.001 || moving && Math.Abs(lastPos.z - transform.position.z) > 0.001)
+        {
+            ChangeAnimationState(ZOMBIE_RUN);
+        }
+        else
+        {
+            if(hasAttacked == false)
+            {
+                ChangeAnimationState(ZOMBIE_IDLE);
+            }
+            
+        }
+        lastPos = transform.position;
+
+        
+        
+        
+
+
+
+
 
 
         Vector3 raySource = transform.position + Vector3.up * 1f;
@@ -121,28 +157,67 @@ public class zombieBehavior : MonoBehaviour
 
             }
         }
-        if (collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player"))
         {
-            agent.speed = 0;
-            agent.angularSpeed = 0;
-            timePassed2 = 0;
+            if (hasAttacked == false)
+            {
 
+                
+                //Debug.Log("Działa");
+                hasAttacked = true;
+                agent.speed = 0;
+                agent.angularSpeed = 0;
+
+                agent.isStopped = true;
+                
+                ChangeAnimationState(ZOMBIE_ATTACK);
+                Invoke("goIdle", 2);
+                Invoke("actionResume", 3);
+            }
+               
 
         }
 
 
+
     }
-   public Vector3 currentPosition() { 
+    private void goIdle()
+    {
+        ChangeAnimationState(ZOMBIE_IDLE);
+    }
+    private void actionResume()
+    {
+        agent.isStopped = false;
+        hasAttacked = false;
+        agent.speed = 1;
+        agent.angularSpeed = 60;
+        
+
+    }
+    public Vector3 currentPosition() { 
     return transform.position;
     }
-    void timer()
+    
+
+    private void ChangeAnimationState(string newState)
     {
-        timePassed2 += Time.deltaTime;
-        if (timePassed2 > timeNeed2)
+        if (newState == currentState)
         {
-            agent.speed = 1;
-            agent.angularSpeed = 120;
-            timePassed2 = 0;
+            return;
+        }
+        animator.Play(newState);
+        currentState = newState;
+    }
+
+    bool isAnimationPlaying(Animator animator, string stateName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

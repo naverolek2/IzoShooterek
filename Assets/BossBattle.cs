@@ -69,6 +69,7 @@ public class BossBattle : MonoBehaviour
     {
         Vector3 bossSpawnPointVector = bossSpawnPoint.transform.position;
         Instantiate(finalboss, bossSpawnPointVector, Quaternion.identity);
+
         for(int i = 0; i < zastawkaSpawnPoint.Length -1; i++)
         {
             Instantiate(zastawka, zastawkaSpawnPoint[i].transform.position, Quaternion.identity);  

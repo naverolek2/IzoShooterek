@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 155335202167249870}
   - component: {fileID: 6934904754061034707}
   - component: {fileID: -5368572353798825824}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Medical_Kit
   m_TagString: medicalKit
   m_Icon: {fileID: 0}

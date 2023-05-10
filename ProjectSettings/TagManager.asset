@@ -13,6 +13,7 @@ TagManager:
   - fireBall
   - fence
   - medicalKit
+  - ZombieDead
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Auta
   - Zombie
   - Fireball
-  - 
-  - 
+  - ZombieDead
+  - Medkit
   - 
   - 
   - 

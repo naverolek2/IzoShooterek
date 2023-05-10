@@ -136,7 +136,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightRange: 60
   hearRange: 50
-  attackRange: 5
   medkit: {fileID: 1812453638202030619, guid: c6776ea35b3d59b46907ebd401b343ff, type: 3}
 --- !u!195 &6517117285868575925
 NavMeshAgent:

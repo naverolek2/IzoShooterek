@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     public float hp = 10;
     public GameObject hpBar;
 
-    
-    
+    public float rotationSpeed = 1.5f;
+
 
     //animacje
     Animator animator;
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        transform.Rotate(Vector3.up * movementVector.x);
+        transform.Rotate(Vector3.up * movementVector.x * rotationSpeed);
        
         transform.Translate(Vector3.forward * movementVector.y * Time.deltaTime * playerSpeed);
 

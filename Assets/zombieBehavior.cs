@@ -41,7 +41,7 @@ public class zombieBehavior : MonoBehaviour
     Vector3 lastPos;
     bool hasAttacked;
     bool isDead;
-
+    Collider collid;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +51,7 @@ public class zombieBehavior : MonoBehaviour
         animator = GetComponent<Animator>();
         timeNeed = Random.Range(7, 15);
         timeNeed2 = 2;
-
+        collid = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
         hasAttacked = false;
         agent.speed = 1;
@@ -153,7 +153,10 @@ public class zombieBehavior : MonoBehaviour
 
                 agent.isStopped = true;
                 rb.detectCollisions = false;
-               ChangeAnimationState(ZOMBIE_DEATH);
+                collid.enabled = false;
+                agent.avoidancePriority = 0;
+
+                ChangeAnimationState(ZOMBIE_DEATH);
                 if(Random.Range(1, 8) == 3)
                 {
                     Instantiate(medkit, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);

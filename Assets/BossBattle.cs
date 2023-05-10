@@ -20,6 +20,7 @@ public class BossBattle : MonoBehaviour
     public GameObject zastawka2;
     public AudioClip clip2;
     public GameObject[] zastawkaSpawnPoint;
+    
 
 
     void Start()

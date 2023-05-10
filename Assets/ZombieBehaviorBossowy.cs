@@ -41,6 +41,8 @@ public class ZombieBehaviorBossowy : MonoBehaviour
     Vector3 lastPos;
     bool hasAttacked;
     bool isDead;
+    Collider collid;
+
 
 
     // Start is called before the first frame update
@@ -51,6 +53,7 @@ public class ZombieBehaviorBossowy : MonoBehaviour
         animator = GetComponent<Animator>();
         timeNeed = Random.Range(7, 15);
         timeNeed2 = 2;
+        collid = GetComponent<Collider>();
 
         rb = GetComponent<Rigidbody>();
         hasAttacked = false;
@@ -153,18 +156,24 @@ public class ZombieBehaviorBossowy : MonoBehaviour
 
                 agent.isStopped = true;
                 rb.detectCollisions = false;
-               ChangeAnimationState(ZOMBIE_DEATH);
+                collid.enabled = false;
+                agent.avoidancePriority = 0;
+                ChangeAnimationState(ZOMBIE_DEATH);
                 if(Random.Range(1, 5) == 3)
                 {
                     Instantiate(medkit, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
                 }
                 Destroy(transform.gameObject, 2);
                 
+                SetLayerAllChildren(this.transform);
+
+
 
 
             }
         }
-        if(collision.gameObject.CompareTag("Player"))
+
+        if (collision.gameObject.CompareTag("Player"))
         {
             if (hp > 0)
             {
@@ -195,15 +204,25 @@ public class ZombieBehaviorBossowy : MonoBehaviour
                 ChangeAnimationState(ZOMBIE_DEATH);
                 Destroy(transform.gameObject, 2);
             }
-                
-               
+            
+           
 
         }
 
 
 
     }
-    
+
+    void SetLayerAllChildren(Transform root)
+    {
+        var children = root.GetComponentsInChildren<Transform>(includeInactive: true);
+        foreach (var child in children)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("ZombieDead");
+        }
+    }
+
+
     private void actionResume()
     {
         agent.isStopped = false;

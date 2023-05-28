@@ -11,10 +11,33 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEngine.InputSystem.Processors;
 using Random = UnityEngine.Random;
 using UnityEngine.Windows;
+using Unity.Netcode;
+using Input = UnityEngine.Input;
+using Unity.Collections;
 
-
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
+    private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(
+        new MyCustomData
+        {
+            _int = 56,
+            _bool = true,
+        }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public struct MyCustomData : INetworkSerializable
+    {
+        public int _int;
+        public bool _bool;
+        public FixedString128Bytes message;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where  T : IReaderWriter
+        {
+            serializer.SerializeValue(ref _int);
+            serializer.SerializeValue(ref _bool);
+            serializer.SerializeValue(ref message);
+        }
+    };
+
+
     Vector2 inputVector;
     Rigidbody rb;
     Transform bulletSpawn;
@@ -51,6 +74,15 @@ public class PlayerController : MonoBehaviour
     Vector2 movementVector;
     GameObject levelcontroller;
     // Start is called before the first frame update
+    private void OnNetworkSpawn()
+    {
+        randomNumber.OnValueChanged += (MyCustomData previousValue, MyCustomData newValue) =>
+        {
+            Debug.Log(OwnerClientId + "; " + newValue._int + "; " + newValue._bool + "; " + newValue.message);
+        };
+    }
+
+
     void Start()
     {
         PlInput = GetComponent<PlayerInput>();
@@ -69,6 +101,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!IsOwner) return;
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            randomNumber.Value = new MyCustomData
+            {
+                _int = 10,
+                _bool = false,
+                message = "You're gay",
+            };
+        }
+
+
+
         timePassed += Time.deltaTime;
         if (timePassed > Random.Range(7, 15))
         {

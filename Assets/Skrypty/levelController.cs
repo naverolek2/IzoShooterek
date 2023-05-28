@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.Processors;
@@ -15,8 +16,13 @@ public class levelController : MonoBehaviour
     public GameObject healPrefab;
     public GameObject[] spawnpoint;
     int zombieCounter = 0;
-  
-   
+
+    Transform spawnedObjectTransform;
+
+
+    [SerializeField] private Transform spawnedObjectPrefab;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,12 +30,14 @@ public class levelController : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         for(int i = 0; i < spawnpoint.Length; i++)
         {
-        Instantiate(zombie, spawnpoint[i].transform.position, Quaternion.identity);
-        
+            spawnedObjectTransform = Instantiate(spawnedObjectPrefab);
+            spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+            spawnedObjectTransform.parent = null;
+
         }
-        
-        
-        
+
+
+
     }
 
     // Update is called once per frame

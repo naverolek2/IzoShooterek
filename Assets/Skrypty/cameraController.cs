@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using Cinemachine;
 
-public class cameraController : MonoBehaviour
-{
+
+public class cameraController : NetworkBehaviour
+{ 
+    
     public Vector3 playerOffset;
     GameObject player;
     public float smoothTime = 0.2f;
@@ -20,5 +24,8 @@ public class cameraController : MonoBehaviour
     {
         Vector3 targetPostion = player.transform.position + playerOffset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPostion, ref velocity, smoothTime);
+        
     }
+    
+
 }

@@ -14,34 +14,26 @@ using UnityEngine.Windows;
 using Unity.Netcode;
 using Input = UnityEngine.Input;
 using Unity.Collections;
+using Cinemachine;
+using Unity.VisualScripting;
+using Mono.Cecil;
 
 public class PlayerController : NetworkBehaviour
 {
-    private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(
-        new MyCustomData
-        {
-            _int = 56,
-            _bool = true,
-        }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public struct MyCustomData : INetworkSerializable
-    {
-        public int _int;
-        public bool _bool;
-        public FixedString128Bytes message;
 
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where  T : IReaderWriter
-        {
-            serializer.SerializeValue(ref _int);
-            serializer.SerializeValue(ref _bool);
-            serializer.SerializeValue(ref message);
-        }
-    };
+    public float sightRange = 10f;
+
 
 
     Vector2 inputVector;
     Rigidbody rb;
     Transform bulletSpawn;
-    public GameObject bulletPrefab;
+    Transform bullet;
+    [SerializeField] private Transform bulletPrefab;
+    [SerializeField] private Transform zombiePrefab;
+
+    zombieBehavior zombie;
+
     public float bulletSpeed = 20f;
     public float playerSpeed = 1.5f;
     public float hp = 10;
@@ -49,13 +41,11 @@ public class PlayerController : NetworkBehaviour
 
     public float rotationSpeed = 1.5f;
 
-
+    [SerializeField] private GameObject kamera;
     //animacje
     Animator animator;
     string currentState;
-    const string PLAYER_IDLE = "m_idle_A";
     const string PLAYER_SHOOT_IDLE = "m_pistol_idle_A";
-    const string PLAYER_RUN = "m_run";
     const string PLAYER_SHOOT_RUN = "m_pistol_run";
     const string PLAYER_DEATH = "m_death_A";
      Vector3 lastPos;
@@ -64,27 +54,34 @@ public class PlayerController : NetworkBehaviour
     public AudioClip zombieGrowl; 
     public AudioSource source;
     public AudioClip clip;
-    
+
+
+    public float shootRange = 15f;
     public AudioClip clip2;
     float timePassed = 0f;
+
     PlayerInput PlInput;
 
-
+    
     Scrollbar hpScrollBar;
     Vector2 movementVector;
     GameObject levelcontroller;
     // Start is called before the first frame update
-    private void OnNetworkSpawn()
-    {
-        randomNumber.OnValueChanged += (MyCustomData previousValue, MyCustomData newValue) =>
-        {
-            Debug.Log(OwnerClientId + "; " + newValue._int + "; " + newValue._bool + "; " + newValue.message);
-        };
-    }
+
+
+
+
 
 
     void Start()
     {
+
+
+        if (IsClient && IsOwner)
+        {
+            Instantiate(kamera);
+
+        }
         PlInput = GetComponent<PlayerInput>();
         isDead = false;
         movementVector = Vector2.zero;
@@ -103,15 +100,6 @@ public class PlayerController : NetworkBehaviour
     {
         if(!IsOwner) return;
 
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            randomNumber.Value = new MyCustomData
-            {
-                _int = 10,
-                _bool = false,
-                message = "You're gay",
-            };
-        }
 
 
 
@@ -151,20 +139,38 @@ public class PlayerController : NetworkBehaviour
 
     void OnMove(InputValue inputValue)
     {
+        if (!IsOwner) return;
+
         movementVector = inputValue.Get<Vector2>();
         //Debug.Log(movementVector.ToString());
     }
 
-    void OnFire()
+
+        void OnFire()
     {
-        
-        
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn);
-        bullet.transform.parent = null;
-        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
-        Destroy(bullet, 1);
-        
-        source.PlayOneShot(clip2, 0.1f);
+
+        if (!IsOwner) return;
+
+        Vector3 raySource = bulletSpawn.transform.position;
+        Vector3 rayDirection = bulletSpawn.transform.forward;
+        Debug.DrawRay(raySource, rayDirection);
+        bool hasDone = false;
+        ShootServerRPC(raySource, rayDirection, hasDone);
+            
+
+
+
+
+                /*
+                bullet = Instantiate(bulletPrefab, bulletSpawn);
+                bullet.parent = null;
+                bullet.GetComponent<NetworkObject>().Spawn(true);
+
+
+                bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward*bulletSpeed,ForceMode.VelocityChange );
+                Destroy(bullet, 1.5f);
+                */
+                source.PlayOneShot(clip2, 0.1f);
         
         
     }
@@ -252,7 +258,33 @@ public class PlayerController : NetworkBehaviour
             return false;
         }
     }
-   
-    
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ShootServerRPC(Vector3 position, Vector3 direction, bool hasDone)
+    {
+        if (hasDone == false)
+        { 
+            if (Physics.Raycast(position, direction, out RaycastHit hit, shootRange))
+        {
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                
+
+                    zombieBehavior.hp--;
+                    hasDone = true;
+                }
+                
+                
+
+                
+            }
+
+        }
+    }
+
+
+
 
 }

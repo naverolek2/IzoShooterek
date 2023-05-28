@@ -1061,9 +1061,11 @@ GameObject:
   - component: {fileID: 3949417390742660213}
   - component: {fileID: 3949417390742660223}
   - component: {fileID: 3949417390742660217}
+  - component: {fileID: 3064908082437347636}
   - component: {fileID: 7593677246786061262}
   - component: {fileID: -5400173859476709272}
   - component: {fileID: 2067001917327080480}
+  - component: {fileID: 1555745647429687451}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1264,6 +1266,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &3064908082437347636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706592300156755798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1763a8f3aed2094984565e77fe503e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnedObjectPrefab: {fileID: 3075602990716834618, guid: e64e5eb6baab45a4eb47145e97dc078b, type: 3}
 --- !u!114 &7593677246786061262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,12 +1291,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d8909e5dd750c48aacd536f1811b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 3560446298415634167, guid: 6a5c80b8720a49a4e8fbe6e145396973, type: 3}
   bulletSpeed: 20
   playerSpeed: 1.5
   hp: 10
   hpBar: {fileID: 0}
   rotationSpeed: 1.5
+  kamera: {fileID: 6519786607335747440, guid: 209a44e21b91643459013e293e5c0d8b, type: 3}
   zombieGrowl: {fileID: 0}
   source: {fileID: 0}
   clip: {fileID: 0}
@@ -1318,14 +1334,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
-  SyncPositionY: 0
+  SyncPositionY: 1
   SyncPositionZ: 1
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -1335,6 +1351,20 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &1555745647429687451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706592300156755798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 4706592300166278512}
 --- !u!1 &4706592300156755800
 GameObject:
   m_ObjectHideFlags: 0

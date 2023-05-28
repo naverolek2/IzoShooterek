@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,13 +10,13 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Processors;
 using Random = UnityEngine.Random;
 
-public class zombieBehavior : MonoBehaviour
+public class zombieBehavior : NetworkBehaviour
 {
     public float sightRange = 15f;
     public float hearRange = 10f;
     public float attackRange = 5f;
 
-    int hp = 4;
+    static public int hp = 4;
     float timePassed = 0f;
     float timePassed2 = 0f;
     GameObject player;
@@ -64,7 +65,33 @@ public class zombieBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (hp <= 0)
+        {
+            isDead = true;
+            agent.speed = 0;
+            agent.angularSpeed = 0;
+
+            agent.isStopped = true;
+            rb.detectCollisions = false;
+            collid.enabled = false;
+            agent.avoidancePriority = 0;
+
+            ChangeAnimationState(ZOMBIE_DEATH);
+            /*
+            if (Random.Range(1, 8) == 3)
+            {
+                Instantiate(medkit, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
+            }
+            */
+            Destroy(transform.gameObject, 2);
+
+
+
+        }
+
+
+
+
         var moving = lastPos != transform.position;
 
         if (hasAttacked == false)
@@ -141,6 +168,7 @@ public class zombieBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        /*
         if (collision.gameObject.CompareTag("Bullet"))
         {
             Destroy(collision.gameObject);
@@ -167,6 +195,7 @@ public class zombieBehavior : MonoBehaviour
 
             }
         }
+        */
         if(collision.gameObject.CompareTag("Player"))
         {
             if (hp > 0)

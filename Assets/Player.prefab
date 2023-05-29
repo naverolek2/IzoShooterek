@@ -1065,7 +1065,7 @@ GameObject:
   - component: {fileID: 7593677246786061262}
   - component: {fileID: -5400173859476709272}
   - component: {fileID: 2067001917327080480}
-  - component: {fileID: 1555745647429687451}
+  - component: {fileID: -5028873217328629728}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1291,7 +1291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d8909e5dd750c48aacd536f1811b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sightRange: 10
   bulletPrefab: {fileID: 3560446298415634167, guid: 6a5c80b8720a49a4e8fbe6e145396973, type: 3}
+  zombiePrefab: {fileID: 0}
   bulletSpeed: 20
   playerSpeed: 1.5
   hp: 10
@@ -1301,6 +1303,7 @@ MonoBehaviour:
   zombieGrowl: {fileID: 0}
   source: {fileID: 0}
   clip: {fileID: 0}
+  shootRange: 15
   clip2: {fileID: 0}
 --- !u!114 &-5400173859476709272
 MonoBehaviour:
@@ -1351,7 +1354,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &1555745647429687451
+--- !u!114 &-5028873217328629728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1360,7 +1363,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4706592300156755798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: 64e914d0d2c2a404cbbed74834b0e350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []

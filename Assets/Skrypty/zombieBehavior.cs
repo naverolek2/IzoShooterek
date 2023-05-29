@@ -19,7 +19,9 @@ public class zombieBehavior : NetworkBehaviour
     static public int hp = 4;
     float timePassed = 0f;
     float timePassed2 = 0f;
-    GameObject player;
+    public GameObject player2;
+
+    //public GameObject player = new GameObject[8];
     NavMeshAgent agent;
     public GameObject medkit;
 
@@ -47,7 +49,6 @@ public class zombieBehavior : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         timeNeed = Random.Range(7, 15);
@@ -103,44 +104,47 @@ public class zombieBehavior : NetworkBehaviour
                     ChangeAnimationState(ZOMBIE_RUN);
                 }
                 else
-                {   
+                {
                     ChangeAnimationState(ZOMBIE_IDLE);
                 }
-        lastPos = transform.position;
+                lastPos = transform.position;
             }
         }
-        
-
-        
-        
-        
 
 
 
 
 
 
-        Vector3 raySource = transform.position + Vector3.up * 1f;
-        Vector3 rayDest = player.transform.position - transform.position + Vector3.up * 1f;
-        Vector3 rayDirection = player.transform.position - transform.position;
-        RaycastHit hit;
-        Debug.DrawRay(raySource, rayDirection);
 
-        
 
-        if (Physics.Raycast(raySource, rayDirection, out hit, sightRange))
+
+
+
+        for (int i = 0; i < player.Length; i++)
+        {
+            Vector3 raySource = transform.position + Vector3.up * 1f;
+            Vector3 rayDest = player[i].transform.position - transform.position + Vector3.up * 1f;
+            Vector3 rayDirection = player[i].transform.position - transform.position;
+            RaycastHit hit;
+            if (Physics.Raycast(raySource, rayDirection, out hit, sightRange))
             {
                 //Debug.Log(hit.transform.gameObject.name.ToString());
 
-               
+
 
                 if (hit.transform.CompareTag("Player"))
                     playerVisible = true;
                 else
                     playerVisible = false;
-                
-                    
+
+
             }
+
+        }
+
+
+
         Collider[] heardObjects = Physics.OverlapSphere(transform.position, hearRange);
 
         playerHearable = false;
@@ -154,15 +158,27 @@ public class zombieBehavior : NetworkBehaviour
 
 
         agent.isStopped = !playerHearable && !playerVisible;
-        
+
         if (hp > 0)
         {
             //transform.LookAt(player.transform.position);
             //Vector3 playerDirection = transform.position - player.transform.position;
 
             // transform.Translate(Vector3.back * Time.deltaTime);
-            
-            agent.destination = player.transform.position ;
+
+            int ktory = 0;
+            float dist = Vector3.Distance(player[0].transform.position, transform.position); ;
+            for (int i = 0; i < player.Length; i++)
+            {
+                float dist2 = Vector3.Distance(player[i].transform.position, transform.position);
+                if (dist2 < dist)
+                {
+                    dist = dist2;
+                    ktory = i;
+                }
+            }
+            agent.destination = player[ktory].transform.position;
+
         }
     }
 
@@ -226,9 +242,11 @@ public class zombieBehavior : NetworkBehaviour
                 rb.detectCollisions = false;
                 ChangeAnimationState(ZOMBIE_DEATH);
                 Destroy(transform.gameObject, 2);
+                this.GetComponent<NetworkObject>().Despawn(true);
+
             }
-                
-               
+
+
 
         }
 

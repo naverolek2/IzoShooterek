@@ -17,6 +17,7 @@ using Unity.Collections;
 using Cinemachine;
 using Unity.VisualScripting;
 using Mono.Cecil;
+using Unity.Netcode.Components;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -75,7 +76,6 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-
 
         if (IsClient && IsOwner)
         {
@@ -244,6 +244,7 @@ public class PlayerController : NetworkBehaviour
         {
             return;
         }
+        
         animator.Play(newState);
         currentState = newState;
     }

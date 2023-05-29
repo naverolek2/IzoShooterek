@@ -19,9 +19,7 @@ public class zombieBehavior : NetworkBehaviour
     static public int hp = 4;
     float timePassed = 0f;
     float timePassed2 = 0f;
-    public GameObject player2;
-
-    //public GameObject player = new GameObject[8];
+    GameObject[] player = new GameObject[8];
     NavMeshAgent agent;
     public GameObject medkit;
 
@@ -49,6 +47,7 @@ public class zombieBehavior : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectsWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         timeNeed = Random.Range(7, 15);
